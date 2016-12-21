@@ -15,11 +15,10 @@ import {
 } from 'react-native';
 
 var NavigatorBarRouteMapper = {
-  LeftButton: function(route, navigator, index){
-    console.log('LeftButton')
-    if(route.name == 'Login'){
-      return null
-    }
+  LeftButton: (route, navigator, index, navState) =>{
+
+    if(route.name == 'Login') return null
+
     return(
       <TouchableHighlight onPress={() => {
           if ( index > 0 ){
@@ -31,19 +30,15 @@ var NavigatorBarRouteMapper = {
       </TouchableHighlight>
     )
   },
-  RightButton:function(route, navigator, index){
-    console.log('RightButton')
-    return null
+  RightButton: (route, navigator, index, navState) =>  {
+     return null
   },
-  Title: function(route, navigator, index){
-    console.log('title')
-    if(route.name == 'Login'){
-      return null
-    }
+  Title: (route, navigator, index, navState) =>  {
+    if(route.name == 'Login') return null
     return (
       <Text style={{marginTop: 10, color: '#007AFF'}}>{route.name}</Text>
     )
-  }
+  },
 }
 
 const Login = require('./src/components/loginView')
@@ -67,7 +62,7 @@ class SuperHero extends Component {
     console.log('mapper ', NavigatorBarRouteMapper)
     return (
     //  <Login></Login>
-      <Navigator style={{backgroundColor: '#000'}}
+      <Navigator
         initialRoute={{name: 'Login'}}
         renderScene={this.renderScene}
         configureScene= {(route) => {
@@ -78,19 +73,11 @@ class SuperHero extends Component {
 
         }}
 
-        navigatorBar={
+        navigationBar={
           <Navigator.NavigationBar
-            routeMapper={{
-              LeftButton: (route, navigator, index, navState) =>
-               { return (<Text>Cancel</Text>); },
-              RightButton: (route, navigator, index, navState) =>
-                { return (<Text>Done</Text>); },
-              Title: (route, navigator, index, navState) =>
-                { return (<Text>Awesome Nav Bar</Text>); },
-            }}
-            style={{backgroundColor: 'gray'}}
+            routeMapper={NavigatorBarRouteMapper}
           />
-        }
+       }
       />
 
     )
